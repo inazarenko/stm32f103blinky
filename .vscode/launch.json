@@ -1,0 +1,40 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "preLaunchTask": "${defaultBuildTask}",
+            "type": "probe-rs-debug",
+            "request": "launch",
+            "name": "probe-rs: Flash+Debug",
+            "cwd": "${workspaceFolder}",
+            "connectUnderReset": false,
+            "chip": "STM32F103CB",
+            "flashingConfig": {
+                "flashingEnabled": true,
+                "haltAfterReset": false
+            },
+            "coreConfigs": [
+                {
+                    "coreIndex": 0,
+                    "rttEnabled": true,
+                    "programBinary": "./target/thumbv7m-none-eabi/debug/${workspaceFolderBasename}",
+                    "svdFile": "./svd/STM32F103.svd"
+                }
+            ]
+        },
+        {
+            "name": "cortex-debug test",
+            "preLaunchTask": "${defaultBuildTask}",
+            "servertype": "openocd",
+            "serverpath": "../openocd/bin/openocd",
+            "type": "cortex-debug",
+            "svdFile": "./svd/STM32F103.svd",
+            "executable": "./target/thumbv7m-none-eabi/debug/${workspaceFolderBasename}",
+            "searchDir": ["../openocd/share/openocd/scripts"],
+            "configFiles": ["interface/stlink.cfg", "board/stm32f103c8_blue_pill.cfg"],
+            "openOCDLaunchCommands": [],
+            "gdbTarget": "localhost:3333",
+            "request": "attach",
+        }
+    ]
+}
